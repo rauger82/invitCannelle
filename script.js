@@ -6,11 +6,11 @@ let attempts = 0;
 let lastEscapeTime = 0;
 
 const messages = [
-    "Vous êtes sûre ? 😳",
-    "Réfléchissez encore… 🥺",
-    "Ce bouton est timide 😶",
-    "Toujours pas 😈",
-    "Le oui est juste à côté ❤️"
+    "Sûre ? 😳",
+    "T'abuses… 🥺",
+    "J'espère que c'est pour tester 😶",
+    "Bon... 😈",
+    "T'as pas trop le choix en vrai ❤️"
 ];
 
 function clamp(value, minimum, maximum) {
