@@ -1,50 +1,149 @@
 const noButton = document.getElementById("noButton");
 const yesButton = document.getElementById("yesButton");
+const page = document.querySelector(".page");
 
 let attempts = 0;
+let lastEscapeTime = 0;
 
-function moveButton(){
+const messages = [
+    "Vous êtes sûre ? 😳",
+    "Réfléchissez encore… 🥺",
+    "Ce bouton est timide 😶",
+    "Toujours pas 😈",
+    "Le oui est juste à côté ❤️"
+];
 
-    const maxX = window.innerWidth - noButton.offsetWidth;
-    const maxY = window.innerHeight - noButton.offsetHeight;
+function clamp(value, minimum, maximum) {
+    return Math.min(Math.max(value, minimum), maximum);
+}
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+function moveButton() {
+    if (!noButton) {
+        return;
+    }
 
-    noButton.style.left = x + "px";
-    noButton.style.top = y + "px";
+    const margin = 12;
 
-    // rotation fun 😄
-    const rotation = Math.random() * 40 - 20;
+    const buttonWidth = noButton.offsetWidth;
+    const buttonHeight = noButton.offsetHeight;
+
+    const maximumX = Math.max(
+        margin,
+        window.innerWidth - buttonWidth - margin
+    );
+
+    const maximumY = Math.max(
+        margin,
+        window.innerHeight - buttonHeight - margin
+    );
+
+    const randomX =
+        margin + Math.random() * (maximumX - margin);
+
+    const randomY =
+        margin + Math.random() * (maximumY - margin);
+
+    const x = clamp(randomX, margin, maximumX);
+    const y = clamp(randomY, margin, maximumY);
+
+    const rotation = Math.random() * 24 - 12;
+
+    noButton.style.left = `${x}px`;
+    noButton.style.top = `${y}px`;
+    noButton.style.right = "auto";
+    noButton.style.bottom = "auto";
     noButton.style.transform = `rotate(${rotation}deg)`;
 }
 
-function escapeButton(){
-
-    attempts++;
-
-    // OUI grossit ❤️
-    const scale = 1 + attempts * 0.15;
-    yesButton.style.transform = `scale(${scale})`;
-
-    // texte drôle 😈
-    if(attempts === 1){
-        noButton.textContent = "Tu es sûr ? 😳";
+function escapeButton(event) {
+    if (event) {
+        event.preventDefault();
     }
 
-    if(attempts === 2){
-        noButton.textContent = "Réfléchis 😭";
+    const currentTime = Date.now();
+
+    /*
+     * Empêche un même toucher mobile de déclencher
+     * plusieurs événements successifs.
+     */
+    if (currentTime - lastEscapeTime < 220) {
+        return;
     }
 
-    if(attempts >= 3){
-        noButton.textContent = "Impossible 😈";
+    lastEscapeTime = currentTime;
+    attempts += 1;
+
+    if (yesButton) {
+        const scale = Math.min(1 + attempts * 0.055, 1.28);
+
+        yesButton.style.transform = `scale(${scale})`;
+        yesButton.style.boxShadow =
+            "0 11px 25px rgba(104, 134, 90, 0.32)";
     }
+
+    const messageIndex = Math.min(
+        attempts - 1,
+        messages.length - 1
+    );
+
+    noButton.textContent = messages[messageIndex];
 
     moveButton();
+
+    if (
+        "vibrate" in navigator &&
+        typeof navigator.vibrate === "function"
+    ) {
+        navigator.vibrate(15);
+    }
 }
 
-// PC
-noButton.addEventListener("mouseenter", escapeButton);
+function openPlanPage() {
+    if (!page) {
+        window.location.href = "plandesoiree.html";
+        return;
+    }
 
-// Mobile
-noButton.addEventListener("touchstart", escapeButton);
+    page.classList.add("page-exit");
+
+    /*
+     * Le bouton Non disparaît proprement pendant
+     * la transition vers la page suivante.
+     */
+    if (noButton) {
+        noButton.style.opacity = "0";
+        noButton.style.pointerEvents = "none";
+    }
+
+    window.setTimeout(function () {
+        window.location.href = "plandesoiree.html";
+    }, 330);
+}
+
+if (noButton) {
+    noButton.addEventListener("mouseenter", escapeButton);
+
+    noButton.addEventListener(
+        "touchstart",
+        escapeButton,
+        {
+            passive: false
+        }
+    );
+
+    noButton.addEventListener("click", escapeButton);
+}
+
+if (yesButton) {
+    yesButton.addEventListener("click", openPlanPage);
+}
+
+/*
+ * Replace correctement le bouton si le téléphone
+ * passe du mode portrait au mode paysage.
+ */
+window.addEventListener("resize", function () {
+    if (attempts > 0) {
+        moveButton();
+    }
+});
