@@ -1,136 +1,310 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Invitation pour ma très chère Canaille</title>
+    <meta charset="UTF-8">
 
-<style>
-body{
-    margin:0;
-    background:#e8d7c3;
-    font-family: 'Georgia', serif;
-}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
 
-/* CONTAINER UNIQUE */
-.container{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    position:relative;
-    text-align:center;
-}
+    <meta
+        name="theme-color"
+        content="#e8d6c3"
+    >
 
-/* IMAGE PRINCIPALE */
-.botomimage{
-    height:130px;
-    width:120px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
+    <title>Notre rendez-vous est confirmé</title>
 
-/* TEXTE */
-h1, h2{
-    color:#5c4333;
-}
-
-p{
-    font-size:18px;
-    color:#6d5240;
-}
-
-/* BOUTON */
-button{
-    margin-top:20px;
-    background:#7c9b6d;
-    color:white;
-    border:none;
-    padding:15px 35px;
-    border-radius:15px;
-    font-size:18px;
-    cursor:pointer;
-}
-
-/* IMAGE BAS */
-.bottom-img{
-    position:absolute;
-    bottom:10px;
-    right:10px;
-    width:40px;
-    height:40px;
-    object-fit:cover;
-}
-</style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <main class="page">
+        <article class="card confirmation-card">
+            <div class="confirmation-icon" aria-hidden="true">
+                ✓
+            </div>
 
-<div class="container">
-    <img src="images/Image7.jpg" class="photo">
-    <div id="result"></div>
-</div>
-
-<script>
-window.onload = function() {
-
-    const date = localStorage.getItem("date");
-    const activite = localStorage.getItem("activite");
-
-    // --- ENVOI DES RÉSULTATS PAR MAIL ---
-    if (date && activite) {
-        fetch("https://formspree.io/f/xkoldvab", {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                "Date choisie": date,
-                "Activité choisie": activite
-            })
-        })
-        .then(response => console.log("Données envoyées avec succès !"))
-        .catch(error => console.error("Erreur lors de l'envoi :", error));
-    }
-    // ------------------------------------------------
-
-    const container = document.querySelector(".container");
-
-    container.style.opacity = 0;
-    container.style.transform = "translateY(20px)";
-
-    setTimeout(() => {
-
-        container.style.transition = "1s";
-        container.style.opacity = 1;
-        container.style.transform = "translateY(0px)";
-
-        container.innerHTML = `
-            <h2>🤍  Notre rendez-vous est confirmé</h2>
-
-            <p>📅 <strong>Date :</strong> ${date ? date : "Non définie"}</p>
-
-            <p>🎯 <strong>Activité :</strong> ${activite ? activite : "Non définie"}</p>
-
-            <p style="margin-top:20px;">
-                A très vite ma canaille !
+            <p class="page-label">
+                Invitation acceptée
             </p>
 
-            <button onclick="window.location.href='https://www.instagram.com/_rauger_/'">
+            <h1 class="confirmation-title">
+                Notre rendez-vous est confirmé
+            </h1>
+
+            <div class="ornament" aria-hidden="true">
+                ♥
+            </div>
+
+            <section
+                class="summary"
+                id="summary"
+                aria-label="Récapitulatif du rendez-vous"
+            >
+                <div class="summary-item">
+                    <span class="summary-label">
+                        Date
+                    </span>
+
+                    <span
+                        class="summary-value"
+                        id="selected-date"
+                    >
+                        Chargement…
+                    </span>
+                </div>
+
+                <div class="summary-item">
+                    <span class="summary-label">
+                        Plan de la soirée
+                    </span>
+
+                    <span
+                        class="summary-value"
+                        id="selected-activity"
+                    >
+                        Chargement…
+                    </span>
+                </div>
+
+                <div class="summary-item">
+                    <span class="summary-label">
+                        Suppléments
+                    </span>
+
+                    <div
+                        class="summary-value"
+                        id="selected-supplements"
+                    >
+                        Chargement…
+                    </div>
+                </div>
+            </section>
+
+            <p class="final-message">
+                Tout est prêt.<br>
+                À très vite, ma canaille&nbsp;! 🤍
+            </p>
+
+            images/Image13.jpg
+
+            <button
+                type="button"
+                class="close-button"
+                id="close-button"
+            >
                 Refermer la lettre
             </button>
 
-            <div style="font-size:40px; margin-top:20px;">
-                🤍
-            </div>
-            <img src="images/Image13.jpg" class="botomimage">
-        `;
+            <p
+                class="status-message"
+                id="status-message"
+                aria-live="polite"
+            ></p>
+        </article>
+    </main>
 
-    }, 500);
-};
-</script>
+    <script>
+        const dateValue = localStorage.getItem("date");
+        const activityValue = localStorage.getItem("activite");
 
+        let supplements = [];
+
+        try {
+            supplements = JSON.parse(
+                localStorage.getItem("supplements") || "[]"
+            );
+
+            if (!Array.isArray(supplements)) {
+                supplements = [];
+            }
+        } catch (error) {
+            supplements = [];
+        }
+
+        /*
+         * Compatibilité avec les anciennes sauvegardes
+         * séparées de balade et chauffeur.
+         */
+        if (
+            supplements.length === 0 &&
+            localStorage.getItem("balade") === "true"
+        ) {
+            supplements.push("Balade accompagnée");
+        }
+
+        if (
+            !supplements.includes("Chauffeur privé") &&
+            localStorage.getItem("chauffeur") === "true"
+        ) {
+            supplements.push("Chauffeur privé");
+        }
+
+        const dateElement =
+            document.getElementById("selected-date");
+
+        const activityElement =
+            document.getElementById("selected-activity");
+
+        const supplementsElement =
+            document.getElementById("selected-supplements");
+
+        const closeButton =
+            document.getElementById("close-button");
+
+        const statusMessage =
+            document.getElementById("status-message");
+
+        const page =
+            document.querySelector(".page");
+
+        function formatFrenchDate(dateString) {
+            if (!dateString) {
+                return "Date non définie";
+            }
+
+            /*
+             * Le T12:00 évite qu’un changement de fuseau horaire
+             * décale la date au jour précédent.
+             */
+            const date = new Date(`${dateString}T12:00:00`);
+
+            if (Number.isNaN(date.getTime())) {
+                return dateString;
+            }
+
+            return new Intl.DateTimeFormat(
+                "fr-FR",
+                {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }
+            ).format(date);
+        }
+
+        function displaySummary() {
+            dateElement.textContent =
+                formatFrenchDate(dateValue);
+
+            activityElement.textContent =
+                activityValue || "Formule non définie";
+
+            supplementsElement.replaceChildren();
+
+            if (supplements.length === 0) {
+                supplementsElement.textContent =
+                    "Aucun supplément sélectionné";
+
+                return;
+            }
+
+            const list = document.createElement("ul");
+            list.className = "supplement-list";
+
+            supplements.forEach(function (supplement) {
+                const item = document.createElement("li");
+                item.textContent = supplement;
+                list.appendChild(item);
+            });
+
+            supplementsElement.appendChild(list);
+        }
+
+        async function sendResult() {
+            if (!dateValue || !activityValue) {
+                statusMessage.textContent =
+                    "Certaines informations du rendez-vous sont manquantes.";
+
+                statusMessage.classList.add("error");
+                return;
+            }
+
+            /*
+             * Cette clé empêche un deuxième envoi lorsque
+             * la page est simplement actualisée.
+             */
+            const submissionIdentifier = [
+                dateValue,
+                activityValue,
+                supplements.join("|")
+            ].join("__");
+
+            const lastSubmission =
+                sessionStorage.getItem("lastSubmission");
+
+            if (lastSubmission === submissionIdentifier) {
+                return;
+            }
+
+            statusMessage.textContent =
+                "Confirmation en cours d’envoi…";
+
+            try {
+                const response = await fetch(
+                    "https://formspree.io/f/xkoldvab",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            "Date choisie":
+                                formatFrenchDate(dateValue),
+
+                            "Formule choisie":
+                                activityValue,
+
+                            "Suppléments":
+                                supplements.length > 0
+                                    ? supplements.join(", ")
+                                    : "Aucun supplément"
+                        })
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Erreur HTTP ${response.status}`
+                    );
+                }
+
+                sessionStorage.setItem(
+                    "lastSubmission",
+                    submissionIdentifier
+                );
+
+                statusMessage.textContent =
+                    "Votre réponse a bien été enregistrée 🤍";
+            } catch (error) {
+                console.error(
+                    "Erreur lors de l’envoi :",
+                    error
+                );
+
+                statusMessage.textContent =
+                    "Le rendez-vous est enregistré sur cet appareil, mais l’envoi de la confirmation a échoué.";
+
+                statusMessage.classList.add("error");
+            }
+        }
+
+        closeButton.addEventListener("click", function () {
+            page.classList.add("page-exit");
+
+            window.setTimeout(function () {
+                window.location.href =
+                    "https://www.instagram.com/_rauger_/";
+            }, 330);
+        });
+
+        displaySummary();
+        sendResult();
+    </script>
 </body>
 </html>
