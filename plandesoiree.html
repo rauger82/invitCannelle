@@ -1,223 +1,860 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Plan de la soirée ❤️</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
 
-<style>
+    <title>Plan de la soirée ❤️</title>
 
-body{
-    margin:0;
-    background:#e8d6c3;
-    font-family:Georgia, serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    padding:20px;
-}
+    <style>
+        :root {
+            --fond-page: #e8d6c3;
+            --fond-carte: #f5e6d6;
+            --fond-formule: #fffdf9;
+            --fond-formule-selectionnee: #fff8ee;
 
-.container{
-    width:420px;
-    max-width:100%;
-    background:#f5e6d6;
-    padding:25px;
-    border-radius:25px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.15);
-}
+            --texte-principal: #5d4635;
+            --texte-secondaire: #7a624f;
 
-h2{
-    text-align:center;
-    color:#5d4635;
-    margin-bottom:15px;
-}
+            --dore: #b8945e;
+            --dore-clair: #e4d3c2;
+            --vert: #7b9a6b;
+            --vert-fonce: #68865a;
+        }
 
-.date-box{
-    background:white;
-    padding:15px;
-    border-radius:15px;
-    margin-bottom:25px;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-input[type="date"]{
-    width:100%;
-    padding:12px;
-    border-radius:10px;
-    border:2px solid #d8c0a8;
-    font-size:16px;
-    box-sizing:border-box;
-}
+        html {
+            min-height: 100%;
+            background: var(--fond-page);
+        }
 
-.section-title{
-    text-align:center;
-    color:#5d4635;
-    font-size:32px;
-    font-style:italic;
-    margin:25px 0;
-    font-family:'Palatino Linotype', serif;
-}
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding:
+                max(20px, env(safe-area-inset-top))
+                max(16px, env(safe-area-inset-right))
+                max(20px, env(safe-area-inset-bottom))
+                max(16px, env(safe-area-inset-left));
 
-.grid{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-}
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
 
-.activity{
-    position:relative;
-}
+            color: var(--texte-principal);
+            background:
+                radial-gradient(
+                    circle at top,
+                    rgba(255, 255, 255, 0.3),
+                    transparent 38%
+                ),
+                var(--fond-page);
 
-.activity input{
-    display:none;
-}
+            font-family: Georgia, "Times New Roman", serif;
+        }
 
-.activity label{
-    display:block;
-    background:linear-gradient(135deg,#fffdfb,#fff7ef);
-    border:2px solid #e4d3c2;
-    border-radius:20px;
-    padding:22px;
-    cursor:pointer;
-    position:relative;
-    overflow:hidden;
+        .container {
+            width: 100%;
+            max-width: 460px;
+            margin: auto 0;
 
-    transition:
-        transform .2s ease,
-        border-color .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
+            padding: 26px 22px;
 
-    will-change:transform;
+            background: var(--fond-carte);
+            border: 1px solid rgba(93, 70, 53, 0.08);
+            border-radius: 26px;
 
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
-}
+            box-shadow:
+                0 18px 45px rgba(93, 70, 53, 0.15),
+                0 3px 10px rgba(93, 70, 53, 0.08);
+        }
 
-.activity label:hover{
-    transform:translateY(-3px);
-}
+        h1,
+        h2,
+        p {
+            margin-top: 0;
+        }
 
-.activity label:active{
-    transform:scale(.98);
-}
+        .date-title {
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 22px;
+        }
 
-.activity input:checked + label{
-    border-color:#b8945e;
-    background:#fffaf4;
+        .date-box {
+            padding: 15px;
+            margin-bottom: 30px;
 
-    transform:translateY(-2px);
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(184, 148, 94, 0.25);
+            border-radius: 16px;
+        }
 
-    box-shadow:
-        0 4px 12px rgba(184,148,94,.18),
-        0 0 0 3px rgba(184,148,94,.12);
-}
+        input[type="date"] {
+            width: 100%;
+            min-height: 48px;
+            padding: 11px 12px;
 
-.activity input:checked + label::before{
-    content:"";
-    position:absolute;
-    left:0;
-    top:0;
-    bottom:0;
-    width:5px;
-    background:#b8945e;
+            color: var(--texte-principal);
+            background: #fffdfb;
 
-    animation:slideBar .25s ease-out;
-}
+            border: 2px solid #d8c0a8;
+            border-radius: 11px;
 
-.activity input:checked + label::after{
-    content:"♥";
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 16px;
+        }
 
-    position:absolute;
-    top:12px;
-    right:12px;
+        input[type="date"]:focus {
+            outline: 3px solid rgba(184, 148, 94, 0.2);
+            border-color: var(--dore);
+        }
 
-    width:30px;
-    height:30px;
+        .section-title {
+            margin: 0 0 8px;
+            text-align: center;
 
-    border-radius:50%;
-    background:#b8945e;
-    color:white;
+            color: var(--texte-principal);
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+            font-family:
+                "Palatino Linotype",
+                Palatino,
+                "Book Antiqua",
+                Georgia,
+                serif;
 
-    animation:heartPop .25s ease-out;
-}
+            font-size: clamp(28px, 8vw, 36px);
+            font-weight: normal;
+            font-style: italic;
+            letter-spacing: 0.4px;
+        }
 
-.formule-titre{
-    display:block;
-    text-align:center;
-    color:#5d4635;
+        .section-intro {
+            max-width: 330px;
+            margin: 0 auto 23px;
 
-    font-family:
-        "Palatino Linotype",
-        "Book Antiqua",
-        serif;
+            color: var(--texte-secondaire);
+            text-align: center;
+            font-size: 14px;
+            font-style: italic;
+            line-height: 1.55;
+        }
 
-    font-size:28px;
-    font-style:italic;
+        .grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
-    margin-bottom:10px;
-}
+        .activity {
+            position: relative;
+        }
 
-.formule-separateur{
-    width:60px;
-    height:2px;
-    background:#b8945e;
-    margin:0 auto 15px auto;
-}
+        /*
+         * Les boutons restent accessibles au clavier,
+         * mais sont visuellement masqués.
+         */
+        .activity-input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
 
-.formule-description{
-    display:block;
-    text-align:center;
-    color:#7a624f;
-    line-height:1.7;
-    font-size:14px;
-}
+        .activity-card {
+            position: relative;
+            display: block;
+            min-height: 150px;
+            padding: 23px 45px 23px 24px;
 
-/* SUPPLÉMENTS */
+            overflow: hidden;
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
 
-.supplement{
-    margin-top:10px;
-}
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.97),
+                    rgba(255, 247, 239, 0.97)
+                );
 
-.supplement label{
-    min-height:auto;
-}
+            border: 2px solid var(--dore-clair);
+            border-radius: 21px;
 
-button{
-    margin-top:30px;
-    width:100%;
-    padding:16px;
-    border:none;
-    background:#7b9a6b;
-    color:white;
-    border-radius:15px;
-    font-size:18px;
-    cursor:pointer;
-    transition:.3s;
-}
+            box-shadow: 0 5px 14px rgba(93, 70, 53, 0.08);
 
-button:hover{
-    background:#6a895c;
-}
+            transition:
+                transform 180ms ease,
+                border-color 180ms ease,
+                background-color 180ms ease,
+                box-shadow 180ms ease;
+        }
 
-.result{
-    display:none;
-}
+        .activity-card:active {
+            transform: scale(0.985);
+        }
 
-#overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(93,70,53,.95);
-    color:white;
-    font-size:24px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    z-index:9999;
+        .activity-input:focus-visible + .activity-card {
+            outline: 3px solid rgba(184, 148, 94, 0.38);
+            outline-offset: 3px;
+        }
 
-  
+        .activity-input:checked + .activity-card {
+            background: var(--fond-formule-selectionnee);
+            border-color: var(--dore);
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 9px 20px rgba(184, 148, 94, 0.17),
+                0 0 0 3px rgba(184, 148, 94, 0.11);
+
+            animation: selectionCarte 300ms ease-out;
+        }
+
+        /* Liseré doré lors de la sélection */
+        .activity-input:checked + .activity-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 5px;
+
+            background: var(--dore);
+            transform-origin: center;
+            animation: apparitionLiseré 280ms ease-out;
+        }
+
+        /* Cœur de sélection */
+        .activity-input:checked + .activity-card::after {
+            content: "♥";
+
+            position: absolute;
+            top: 13px;
+            right: 13px;
+
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: white;
+            background: var(--dore);
+            border-radius: 50%;
+
+            font-family: Georgia, serif;
+            font-size: 14px;
+
+            box-shadow: 0 4px 10px rgba(184, 148, 94, 0.28);
+            animation: apparitionCoeur 280ms ease-out;
+        }
+
+        .formule-titre {
+            display: block;
+            margin-bottom: 10px;
+
+            color: var(--texte-principal);
+            text-align: center;
+
+            font-family:
+                "Palatino Linotype",
+                Palatino,
+                "Book Antiqua",
+                Georgia,
+                serif;
+
+            font-size: clamp(23px, 7vw, 29px);
+            font-weight: normal;
+            font-style: italic;
+            line-height: 1.15;
+        }
+
+        .formule-separateur {
+            width: 58px;
+            height: 1px;
+            margin: 0 auto 14px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--dore),
+                    transparent
+                );
+        }
+
+        .formule-description {
+            display: block;
+
+            color: var(--texte-secondaire);
+            text-align: center;
+
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        .supplements-title {
+            margin: 36px 0 7px;
+            text-align: center;
+
+            font-family:
+                "Palatino Linotype",
+                Palatino,
+                Georgia,
+                serif;
+
+            font-size: 25px;
+            font-weight: normal;
+            font-style: italic;
+        }
+
+        .supplements-intro {
+            margin-bottom: 18px;
+            color: var(--texte-secondaire);
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .supplement .activity-card {
+            min-height: auto;
+            padding: 19px 43px 19px 20px;
+        }
+
+        .supplement .formule-titre {
+            font-size: 21px;
+        }
+
+        .supplement .formule-description {
+            font-size: 13px;
+        }
+
+        .validate-button {
+            width: 100%;
+            min-height: 54px;
+            margin-top: 29px;
+            padding: 15px 18px;
+
+            color: white;
+            background: var(--vert);
+
+            border: none;
+            border-radius: 15px;
+
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 17px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+
+            box-shadow: 0 7px 16px rgba(104, 134, 90, 0.22);
+
+            transition:
+                transform 180ms ease,
+                background-color 180ms ease,
+                box-shadow 180ms ease;
+        }
+
+        .validate-button:active {
+            background: var(--vert-fonce);
+            transform: scale(0.985);
+        }
+
+        .validate-button:focus-visible {
+            outline: 3px solid rgba(123, 154, 107, 0.38);
+            outline-offset: 3px;
+        }
+
+        .error-message {
+            display: none;
+            margin: 16px 0 0;
+            padding: 12px 14px;
+
+            color: #74482e;
+            background: #fff8ee;
+            border: 1px solid #d6b58e;
+            border-radius: 12px;
+
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .error-message.visible {
+            display: block;
+            animation: apparitionMessage 220ms ease-out;
+        }
+
+        /*
+         * L’overlay est obligatoirement invisible au chargement.
+         * Il apparaît uniquement lorsque JavaScript ajoute .show.
+         */
+        #overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 25px;
+
+            color: white;
+            background: rgba(93, 70, 53, 0.96);
+
+            text-align: center;
+            font-family:
+                "Palatino Linotype",
+                Palatino,
+                Georgia,
+                serif;
+            font-size: 24px;
+            font-style: italic;
+            line-height: 1.5;
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transition:
+                opacity 350ms ease,
+                visibility 350ms ease;
+        }
+
+        #overlay.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        @keyframes selectionCarte {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+
+            55% {
+                transform: translateY(-2px) scale(1.012);
+            }
+
+            100% {
+                transform: translateY(-2px) scale(1);
+            }
+        }
+
+        @keyframes apparitionCoeur {
+            0% {
+                opacity: 0;
+                transform: scale(0.45);
+            }
+
+            70% {
+                transform: scale(1.12);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes apparitionLiseré {
+            from {
+                transform: scaleY(0);
+            }
+
+            to {
+                transform: scaleY(1);
+            }
+        }
+
+        @keyframes apparitionMessage {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Effets réservés aux appareils avec souris */
+        @media (hover: hover) and (pointer: fine) {
+            .activity-card:hover {
+                transform: translateY(-3px);
+                border-color: #d1b282;
+                box-shadow: 0 10px 24px rgba(93, 70, 53, 0.12);
+            }
+
+            .activity-input:checked + .activity-card:hover {
+                transform: translateY(-3px);
+            }
+
+            .validate-button:hover {
+                background: var(--vert-fonce);
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(104, 134, 90, 0.27);
+            }
+        }
+
+        /* Ajustements pour petits smartphones */
+        @media (max-width: 420px) {
+            body {
+                padding-right: 12px;
+                padding-left: 12px;
+            }
+
+            .container {
+                padding: 23px 16px;
+                border-radius: 22px;
+            }
+
+            .activity-card {
+                min-height: 145px;
+                padding: 21px 42px 21px 18px;
+            }
+
+            .formule-description {
+                line-height: 1.55;
+            }
+        }
+
+        /*
+         * Accessibilité et économie d’énergie :
+         * désactive les animations si l’utilisateur le demande.
+         */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h2 class="date-title">Choisissez une date ❤️</h2>
+
+        <div class="date-box">
+            <input
+                type="date"
+                id="date"
+                aria-label="Date du rendez-vous"
+            >
+        </div>
+
+        <h1 class="section-title">Plan de la soirée</h1>
+
+        <p class="section-intro">
+            Choisissez la formule qui vous ressemble,
+            puis laissez la soirée suivre son cours.
+        </p>
+
+        <!-- Les trois formules -->
+        <section class="grid" aria-label="Choix de la formule">
+            <div class="activity">
+                <input
+                    class="activity-input"
+                    type="radio"
+                    name="activity"
+                    id="simplicite"
+                    value="La simplicité"
+                >
+
+                <label class="activity-card" for="simplicite">
+                    <span class="formule-titre">
+                        La simplicité
+                    </span>
+
+                    <span class="formule-separateur"></span>
+
+                    <span class="formule-description">
+                        Un verre en ville pour commencer la soirée,
+                        suivi d’un dîner au restaurant dans une adresse
+                        choisie avec soin.
+                    </span>
+                </label>
+            </div>
+
+            <div class="activity">
+                <input
+                    class="activity-input"
+                    type="radio"
+                    name="activity"
+                    id="art6"
+                    value="Le 6ème Art"
+                >
+
+                <label class="activity-card" for="art6">
+                    <span class="formule-titre">
+                        Le 6ème Art
+                    </span>
+
+                    <span class="formule-separateur"></span>
+
+                    <span class="formule-description">
+                        Un dîner dans une belle adresse, puis une séance
+                        de cinéma pour prolonger la magie de la soirée.
+                    </span>
+                </label>
+            </div>
+
+            <div class="activity">
+                <input
+                    class="activity-input"
+                    type="radio"
+                    name="activity"
+                    id="domicile"
+                    value="Dîner à domicile"
+                >
+
+                <label class="activity-card" for="domicile">
+                    <span class="formule-titre">
+                        Dîner à domicile
+                    </span>
+
+                    <span class="formule-separateur"></span>
+
+                    <span class="formule-description">
+                        Le chef étoilé Rauger vient à domicile pour préparer
+                        un dîner à votre convenance, ou inspiré de la pêche
+                        du matin.
+                    </span>
+                </label>
+            </div>
+        </section>
+
+        <!-- Les suppléments peuvent être cumulés -->
+        <h2 class="supplements-title">Les suppléments</h2>
+
+        <p class="supplements-intro">
+            Facultatifs et cumulables, selon vos envies.
+        </p>
+
+        <section class="grid" aria-label="Suppléments optionnels">
+            <div class="activity supplement">
+                <input
+                    class="activity-input"
+                    type="checkbox"
+                    name="supplement"
+                    id="balade"
+                    value="Balade accompagnée"
+                >
+
+                <label class="activity-card" for="balade">
+                    <span class="formule-titre">
+                        Balade accompagnée
+                    </span>
+
+                    <span class="formule-separateur"></span>
+
+                    <span class="formule-description">
+                        Une balade dans la plus belle ville de France.
+                        Main dans la main et baisers dans les ruelles
+                        sombres inclus.
+                    </span>
+                </label>
+            </div>
+
+            <div class="activity supplement">
+                <input
+                    class="activity-input"
+                    type="checkbox"
+                    name="supplement"
+                    id="chauffeur"
+                    value="Chauffeur privé"
+                >
+
+                <label class="activity-card" for="chauffeur">
+                    <span class="formule-titre">
+                        Chauffeur privé
+                    </span>
+
+                    <span class="formule-separateur"></span>
+
+                    <span class="formule-description">
+                        Un chauffeur peut venir vous chercher puis vous
+                        raccompagner chez vous. Banquette arrière incluse.
+                    </span>
+                </label>
+            </div>
+        </section>
+
+        <button
+            class="validate-button"
+            id="validate-button"
+            type="button"
+        >
+            C’EST PARFAIT !
+        </button>
+
+        <p
+            class="error-message"
+            id="error-message"
+            role="alert"
+            aria-live="polite"
+        ></p>
+    </main>
+
+    <div id="overlay" role="status" aria-live="polite">
+        Préparation du rendez-vous ❤️...
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        const dateInput = document.getElementById("date");
+        const validateButton = document.getElementById("validate-button");
+        const overlay = document.getElementById("overlay");
+        const errorMessage = document.getElementById("error-message");
+
+        /*
+         * On fixe la date minimale à aujourd’hui afin d’éviter
+         * de sélectionner accidentellement une date passée.
+         */
+        const today = new Date();
+        const localToday = new Date(
+            today.getTime() - today.getTimezoneOffset() * 60000
+        )
+            .toISOString()
+            .split("T")[0];
+
+        dateInput.min = localToday;
+
+        /*
+         * Petite vibration uniquement lors du choix d’une formule
+         * ou d’un supplément. Sans effet si le navigateur ne la gère pas.
+         */
+        document.querySelectorAll(".activity-input").forEach(function (input) {
+            input.addEventListener("change", function () {
+                if (
+                    "vibrate" in navigator &&
+                    typeof navigator.vibrate === "function"
+                ) {
+                    navigator.vibrate(18);
+                }
+
+                masquerErreur();
+            });
+        });
+
+        dateInput.addEventListener("change", masquerErreur);
+
+        validateButton.addEventListener("click", validerChoix);
+
+        function afficherErreur(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.add("visible");
+
+            errorMessage.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+        }
+
+        function masquerErreur() {
+            errorMessage.textContent = "";
+            errorMessage.classList.remove("visible");
+        }
+
+        function validerChoix() {
+            const date = dateInput.value;
+
+            const activite = document.querySelector(
+                'input[name="activity"]:checked'
+            );
+
+            const supplements = Array.from(
+                document.querySelectorAll(
+                    'input[name="supplement"]:checked'
+                )
+            ).map(function (input) {
+                return input.value;
+            });
+
+            masquerErreur();
+
+            if (!date) {
+                afficherErreur("Choisissez d’abord une date ❤️");
+                dateInput.focus();
+                return;
+            }
+
+            if (!activite) {
+                afficherErreur("Choisissez une formule pour la soirée ❤️");
+                return;
+            }
+
+            /*
+             * Sauvegarde compatible avec la page rendezvous.html
+             * déjà utilisée dans ton projet.
+             */
+            localStorage.setItem("date", date);
+            localStorage.setItem("activite", activite.value);
+
+            localStorage.setItem(
+                "supplements",
+                JSON.stringify(supplements)
+            );
+
+            localStorage.setItem(
+                "balade",
+                String(document.getElementById("balade").checked)
+            );
+
+            localStorage.setItem(
+                "chauffeur",
+                String(document.getElementById("chauffeur").checked)
+            );
+
+            /*
+             * Si la bibliothèque de confettis ne charge pas,
+             * la validation continue quand même normalement.
+             */
+            if (typeof window.confetti === "function") {
+                window.confetti({
+                    particleCount: 150,
+                    spread: 85,
+                    startVelocity: 28,
+                    gravity: 0.9,
+                    scalar: 0.9,
+                    origin: {
+                        y: 0.62
+                    }
+                });
+            }
+
+            overlay.textContent = "Préparation du rendez-vous ❤️...";
+            overlay.classList.add("show");
+
+            window.setTimeout(function () {
+                overlay.textContent = "Presque prêt ✨";
+            }, 900);
+
+            window.setTimeout(function () {
+                window.location.href = "rendezvous.html";
+            }, 1900);
+        }
+    </script>
+</body>
+</html>
