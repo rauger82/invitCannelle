@@ -8,13 +8,14 @@
         content="width=device-width, initial-scale=1, viewport-fit=cover"
     >
 
+    <meta name="theme-color" content="#e8d6c3">
+
     <title>Plan de la soirée ❤️</title>
 
     <style>
         :root {
             --fond-page: #e8d6c3;
             --fond-carte: #f5e6d6;
-            --fond-formule: #fffdf9;
             --fond-formule-selectionnee: #fff8ee;
 
             --texte-principal: #5d4635;
@@ -22,6 +23,7 @@
 
             --dore: #b8945e;
             --dore-clair: #e4d3c2;
+
             --vert: #7b9a6b;
             --vert-fonce: #68865a;
         }
@@ -37,8 +39,10 @@
 
         body {
             margin: 0;
+
             min-height: 100vh;
             min-height: 100dvh;
+
             padding:
                 max(20px, env(safe-area-inset-top))
                 max(16px, env(safe-area-inset-right))
@@ -50,6 +54,7 @@
             align-items: flex-start;
 
             color: var(--texte-principal);
+
             background:
                 radial-gradient(
                     circle at top,
@@ -64,17 +69,23 @@
         .container {
             width: 100%;
             max-width: 460px;
-            margin: auto 0;
 
+            margin: auto 0;
             padding: 26px 22px;
 
             background: var(--fond-carte);
+
             border: 1px solid rgba(93, 70, 53, 0.08);
             border-radius: 26px;
 
             box-shadow:
                 0 18px 45px rgba(93, 70, 53, 0.15),
                 0 3px 10px rgba(93, 70, 53, 0.08);
+
+            opacity: 0;
+            transform: translateY(14px);
+
+            animation: apparitionPage 650ms ease forwards;
         }
 
         h1,
@@ -83,17 +94,25 @@
             margin-top: 0;
         }
 
+        /* ----------------------------- */
+        /* CHOIX DE LA DATE              */
+        /* ----------------------------- */
+
         .date-title {
             margin-bottom: 15px;
+
+            color: var(--texte-principal);
             text-align: center;
+
             font-size: 22px;
         }
 
         .date-box {
             padding: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
 
             background: rgba(255, 255, 255, 0.88);
+
             border: 1px solid rgba(184, 148, 94, 0.25);
             border-radius: 16px;
         }
@@ -101,6 +120,7 @@
         input[type="date"] {
             width: 100%;
             min-height: 48px;
+
             padding: 11px 12px;
 
             color: var(--texte-principal);
@@ -118,11 +138,15 @@
             border-color: var(--dore);
         }
 
+        /* ----------------------------- */
+        /* TITRE ET PHOTO                */
+        /* ----------------------------- */
+
         .section-title {
-            margin: 0 0 8px;
-            text-align: center;
+            margin: 0 0 16px;
 
             color: var(--texte-principal);
+            text-align: center;
 
             font-family:
                 "Palatino Linotype",
@@ -137,16 +161,50 @@
             letter-spacing: 0.4px;
         }
 
+        .photo-wrapper {
+            display: flex;
+            justify-content: center;
+
+            width: 100%;
+            margin: 0 auto 20px;
+        }
+
+        .hero-photo {
+            display: block;
+
+            width: min(76%, 270px);
+            height: 175px;
+
+            object-fit: cover;
+            object-position: center 42%;
+
+            border: 4px solid rgba(255, 255, 255, 0.75);
+            border-radius: 20px;
+
+            box-shadow:
+                0 10px 24px rgba(93, 70, 53, 0.17),
+                0 2px 6px rgba(93, 70, 53, 0.08);
+
+            transition:
+                transform 250ms ease,
+                box-shadow 250ms ease;
+        }
+
         .section-intro {
             max-width: 330px;
             margin: 0 auto 23px;
 
             color: var(--texte-secondaire);
             text-align: center;
+
             font-size: 14px;
             font-style: italic;
             line-height: 1.55;
         }
+
+        /* ----------------------------- */
+        /* FORMULES                      */
+        /* ----------------------------- */
 
         .grid {
             display: flex;
@@ -158,22 +216,22 @@
             position: relative;
         }
 
-        /*
-         * Les boutons restent accessibles au clavier,
-         * mais sont visuellement masqués.
-         */
         .activity-input {
             position: absolute;
+
             width: 1px;
             height: 1px;
+
             opacity: 0;
             pointer-events: none;
         }
 
         .activity-card {
             position: relative;
+
             display: block;
             min-height: 150px;
+
             padding: 23px 45px 23px 24px;
 
             overflow: hidden;
@@ -191,7 +249,8 @@
             border: 2px solid var(--dore-clair);
             border-radius: 21px;
 
-            box-shadow: 0 5px 14px rgba(93, 70, 53, 0.08);
+            box-shadow:
+                0 5px 14px rgba(93, 70, 53, 0.08);
 
             transition:
                 transform 180ms ease,
@@ -222,19 +281,24 @@
             animation: selectionCarte 300ms ease-out;
         }
 
-        /* Liseré doré lors de la sélection */
+        /* Liseré doré de sélection */
+
         .activity-input:checked + .activity-card::before {
             content: "";
+
             position: absolute;
             inset: 0 auto 0 0;
+
             width: 5px;
 
             background: var(--dore);
             transform-origin: center;
-            animation: apparitionLiseré 280ms ease-out;
+
+            animation: apparitionLisere 280ms ease-out;
         }
 
         /* Cœur de sélection */
+
         .activity-input:checked + .activity-card::after {
             content: "♥";
 
@@ -251,17 +315,21 @@
 
             color: white;
             background: var(--dore);
+
             border-radius: 50%;
+
+            box-shadow:
+                0 4px 10px rgba(184, 148, 94, 0.28);
 
             font-family: Georgia, serif;
             font-size: 14px;
 
-            box-shadow: 0 4px 10px rgba(184, 148, 94, 0.28);
             animation: apparitionCoeur 280ms ease-out;
         }
 
         .formule-titre {
             display: block;
+
             margin-bottom: 10px;
 
             color: var(--texte-principal);
@@ -281,8 +349,11 @@
         }
 
         .formule-separateur {
+            display: block;
+
             width: 58px;
             height: 1px;
+
             margin: 0 auto 14px;
 
             background:
@@ -304,8 +375,14 @@
             line-height: 1.65;
         }
 
+        /* ----------------------------- */
+        /* SUPPLÉMENTS                   */
+        /* ----------------------------- */
+
         .supplements-title {
             margin: 36px 0 7px;
+
+            color: var(--texte-principal);
             text-align: center;
 
             font-family:
@@ -321,8 +398,10 @@
 
         .supplements-intro {
             margin-bottom: 18px;
+
             color: var(--texte-secondaire);
             text-align: center;
+
             font-size: 13px;
         }
 
@@ -339,9 +418,14 @@
             font-size: 13px;
         }
 
+        /* ----------------------------- */
+        /* BOUTON                        */
+        /* ----------------------------- */
+
         .validate-button {
             width: 100%;
             min-height: 54px;
+
             margin-top: 29px;
             padding: 15px 18px;
 
@@ -351,6 +435,9 @@
             border: none;
             border-radius: 15px;
 
+            box-shadow:
+                0 7px 16px rgba(104, 134, 90, 0.22);
+
             font-family: Georgia, "Times New Roman", serif;
             font-size: 17px;
             font-weight: bold;
@@ -359,8 +446,6 @@
             cursor: pointer;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
-
-            box-shadow: 0 7px 16px rgba(104, 134, 90, 0.22);
 
             transition:
                 transform 180ms ease,
@@ -378,13 +463,19 @@
             outline-offset: 3px;
         }
 
+        /* ----------------------------- */
+        /* MESSAGE D’ERREUR              */
+        /* ----------------------------- */
+
         .error-message {
             display: none;
+
             margin: 16px 0 0;
             padding: 12px 14px;
 
             color: #74482e;
             background: #fff8ee;
+
             border: 1px solid #d6b58e;
             border-radius: 12px;
 
@@ -398,10 +489,10 @@
             animation: apparitionMessage 220ms ease-out;
         }
 
-        /*
-         * L’overlay est obligatoirement invisible au chargement.
-         * Il apparaît uniquement lorsque JavaScript ajoute .show.
-         */
+        /* ----------------------------- */
+        /* OVERLAY                       */
+        /* ----------------------------- */
+
         #overlay {
             position: fixed;
             inset: 0;
@@ -417,11 +508,13 @@
             background: rgba(93, 70, 53, 0.96);
 
             text-align: center;
+
             font-family:
                 "Palatino Linotype",
                 Palatino,
                 Georgia,
                 serif;
+
             font-size: 24px;
             font-style: italic;
             line-height: 1.5;
@@ -439,6 +532,22 @@
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
+        }
+
+        /* ----------------------------- */
+        /* ANIMATIONS                    */
+        /* ----------------------------- */
+
+        @keyframes apparitionPage {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes selectionCarte {
@@ -471,7 +580,7 @@
             }
         }
 
-        @keyframes apparitionLiseré {
+        @keyframes apparitionLisere {
             from {
                 transform: scaleY(0);
             }
@@ -494,11 +603,22 @@
         }
 
         /* Effets réservés aux appareils avec souris */
+
         @media (hover: hover) and (pointer: fine) {
+            .hero-photo:hover {
+                transform: translateY(-2px) scale(1.015);
+
+                box-shadow:
+                    0 14px 28px rgba(93, 70, 53, 0.2),
+                    0 3px 8px rgba(93, 70, 53, 0.09);
+            }
+
             .activity-card:hover {
                 transform: translateY(-3px);
                 border-color: #d1b282;
-                box-shadow: 0 10px 24px rgba(93, 70, 53, 0.12);
+
+                box-shadow:
+                    0 10px 24px rgba(93, 70, 53, 0.12);
             }
 
             .activity-input:checked + .activity-card:hover {
@@ -508,11 +628,16 @@
             .validate-button:hover {
                 background: var(--vert-fonce);
                 transform: translateY(-2px);
-                box-shadow: 0 10px 20px rgba(104, 134, 90, 0.27);
+
+                box-shadow:
+                    0 10px 20px rgba(104, 134, 90, 0.27);
             }
         }
 
-        /* Ajustements pour petits smartphones */
+        /* ----------------------------- */
+        /* PETITS SMARTPHONES            */
+        /* ----------------------------- */
+
         @media (max-width: 420px) {
             body {
                 padding-right: 12px;
@@ -524,9 +649,29 @@
                 border-radius: 22px;
             }
 
+            .date-box {
+                margin-bottom: 24px;
+            }
+
+            .hero-photo {
+                width: min(82%, 245px);
+                height: 155px;
+
+                border-radius: 18px;
+            }
+
+            .photo-wrapper {
+                margin-bottom: 19px;
+            }
+
             .activity-card {
                 min-height: 145px;
-                padding: 21px 42px 21px 18px;
+
+                padding:
+                    21px
+                    42px
+                    21px
+                    18px;
             }
 
             .formule-description {
@@ -534,10 +679,8 @@
             }
         }
 
-        /*
-         * Accessibilité et économie d’énergie :
-         * désactive les animations si l’utilisateur le demande.
-         */
+        /* Désactivation des animations si demandée */
+
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
@@ -553,7 +696,9 @@
 
 <body>
     <main class="container">
-        <h2 class="date-title">Choisissez une date ❤️</h2>
+        <h2 class="date-title">
+            Choisissez une date ❤️
+        </h2>
 
         <div class="date-box">
             <input
@@ -563,20 +708,25 @@
             >
         </div>
 
-        <img
-            src="images/Image16.jpg"
-            class="hero-photo"
-            alt=""
-            style="margin-bottom:20px;"
-        >
+        <h1 class="section-title">
+            Plan de la soirée
+        </h1>
+
+        <div class="photo-wrapper">
+            images/Image16.jpg
+        </div>
 
         <p class="section-intro">
             Choisissez la formule qui vous ressemble,
             puis laissez la soirée suivre son cours.
         </p>
 
-        <!-- Les trois formules -->
-        <section class="grid" aria-label="Choix de la formule">
+        <!-- FORMULES -->
+
+        <section
+            class="grid"
+            aria-label="Choix de la formule"
+        >
             <div class="activity">
                 <input
                     class="activity-input"
@@ -586,7 +736,10 @@
                     value="La simplicité"
                 >
 
-                <label class="activity-card" for="simplicite">
+                <label
+                    class="activity-card"
+                    for="simplicite"
+                >
                     <span class="formule-titre">
                         La simplicité
                     </span>
@@ -610,7 +763,10 @@
                     value="Le 6ème Art"
                 >
 
-                <label class="activity-card" for="art6">
+                <label
+                    class="activity-card"
+                    for="art6"
+                >
                     <span class="formule-titre">
                         Le 6ème Art
                     </span>
@@ -618,8 +774,9 @@
                     <span class="formule-separateur"></span>
 
                     <span class="formule-description">
-                        Un dîner dans une belle adresse, puis une séance
-                        de cinéma pour prolonger la magie de la soirée.
+                        Un dîner dans une belle adresse,
+                        puis une séance de cinéma pour prolonger
+                        la magie de la soirée.
                     </span>
                 </label>
             </div>
@@ -633,7 +790,10 @@
                     value="Dîner à domicile"
                 >
 
-                <label class="activity-card" for="domicile">
+                <label
+                    class="activity-card"
+                    for="domicile"
+                >
                     <span class="formule-titre">
                         Dîner à domicile
                     </span>
@@ -641,22 +801,28 @@
                     <span class="formule-separateur"></span>
 
                     <span class="formule-description">
-                        Le chef étoilé Rauger vient à domicile pour préparer
-                        un dîner à votre convenance, ou inspiré de la pêche
-                        du matin.
+                        Le chef étoilé Rauger vient à domicile
+                        pour préparer un dîner à votre convenance,
+                        ou inspiré de la pêche du matin.
                     </span>
                 </label>
             </div>
         </section>
 
-        <!-- Les suppléments peuvent être cumulés -->
-        <h2 class="supplements-title">Les suppléments</h2>
+        <!-- SUPPLÉMENTS -->
+
+        <h2 class="supplements-title">
+            Les suppléments
+        </h2>
 
         <p class="supplements-intro">
             Facultatifs et cumulables, selon vos envies.
         </p>
 
-        <section class="grid" aria-label="Suppléments optionnels">
+        <section
+            class="grid"
+            aria-label="Suppléments optionnels"
+        >
             <div class="activity supplement">
                 <input
                     class="activity-input"
@@ -666,7 +832,10 @@
                     value="Balade accompagnée"
                 >
 
-                <label class="activity-card" for="balade">
+                <label
+                    class="activity-card"
+                    for="balade"
+                >
                     <span class="formule-titre">
                         Balade accompagnée
                     </span>
@@ -690,7 +859,10 @@
                     value="Chauffeur privé"
                 >
 
-                <label class="activity-card" for="chauffeur">
+                <label
+                    class="activity-card"
+                    for="chauffeur"
+                >
                     <span class="formule-titre">
                         Chauffeur privé
                     </span>
@@ -698,8 +870,9 @@
                     <span class="formule-separateur"></span>
 
                     <span class="formule-description">
-                        Un chauffeur peut venir vous chercher puis vous
-                        raccompagner chez vous. Banquette arrière incluse.
+                        Un chauffeur peut venir vous chercher,
+                        puis vous raccompagner chez vous.
+                        Banquette arrière incluse.
                     </span>
                 </label>
             </div>
@@ -721,25 +894,37 @@
         ></p>
     </main>
 
-    <div id="overlay" role="status" aria-live="polite">
+    <div
+        id="overlay"
+        role="status"
+        aria-live="polite"
+    >
         Préparation du rendez-vous ❤️...
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <script>
-        const dateInput = document.getElementById("date");
-        const validateButton = document.getElementById("validate-button");
-        const overlay = document.getElementById("overlay");
-        const errorMessage = document.getElementById("error-message");
+        const dateInput =
+            document.getElementById("date");
+
+        const validateButton =
+            document.getElementById("validate-button");
+
+        const overlay =
+            document.getElementById("overlay");
+
+        const errorMessage =
+            document.getElementById("error-message");
 
         /*
-         * On fixe la date minimale à aujourd’hui afin d’éviter
-         * de sélectionner accidentellement une date passée.
+         * Empêche de choisir une date passée.
          */
         const today = new Date();
+
         const localToday = new Date(
-            today.getTime() - today.getTimezoneOffset() * 60000
+            today.getTime() -
+            today.getTimezoneOffset() * 60000
         )
             .toISOString()
             .split("T")[0];
@@ -747,25 +932,35 @@
         dateInput.min = localToday;
 
         /*
-         * Petite vibration uniquement lors du choix d’une formule
-         * ou d’un supplément. Sans effet si le navigateur ne la gère pas.
+         * Retour haptique discret pendant la sélection.
          */
-        document.querySelectorAll(".activity-input").forEach(function (input) {
-            input.addEventListener("change", function () {
-                if (
-                    "vibrate" in navigator &&
-                    typeof navigator.vibrate === "function"
-                ) {
-                    navigator.vibrate(18);
-                }
+        document
+            .querySelectorAll(".activity-input")
+            .forEach(function (input) {
+                input.addEventListener(
+                    "change",
+                    function () {
+                        if (
+                            "vibrate" in navigator &&
+                            typeof navigator.vibrate === "function"
+                        ) {
+                            navigator.vibrate(18);
+                        }
 
-                masquerErreur();
+                        masquerErreur();
+                    }
+                );
             });
-        });
 
-        dateInput.addEventListener("change", masquerErreur);
+        dateInput.addEventListener(
+            "change",
+            masquerErreur
+        );
 
-        validateButton.addEventListener("click", validerChoix);
+        validateButton.addEventListener(
+            "click",
+            validerChoix
+        );
 
         function afficherErreur(message) {
             errorMessage.textContent = message;
@@ -785,37 +980,51 @@
         function validerChoix() {
             const date = dateInput.value;
 
-            const activite = document.querySelector(
-                'input[name="activity"]:checked'
-            );
+            const activite =
+                document.querySelector(
+                    'input[name="activity"]:checked'
+                );
 
-            const supplements = Array.from(
-                document.querySelectorAll(
-                    'input[name="supplement"]:checked'
-                )
-            ).map(function (input) {
-                return input.value;
-            });
+            const supplements =
+                Array.from(
+                    document.querySelectorAll(
+                        'input[name="supplement"]:checked'
+                    )
+                ).map(function (input) {
+                    return input.value;
+                });
 
             masquerErreur();
 
             if (!date) {
-                afficherErreur("Choisissez d’abord une date ❤️");
+                afficherErreur(
+                    "Choisissez d’abord une date ❤️"
+                );
+
                 dateInput.focus();
                 return;
             }
 
             if (!activite) {
-                afficherErreur("Choisissez une formule pour la soirée ❤️");
+                afficherErreur(
+                    "Choisissez une formule pour la soirée ❤️"
+                );
+
                 return;
             }
 
             /*
-             * Sauvegarde compatible avec la page rendezvous.html
-             * déjà utilisée dans ton projet.
+             * Sauvegarde pour rendezvous.html.
              */
-            localStorage.setItem("date", date);
-            localStorage.setItem("activite", activite.value);
+            localStorage.setItem(
+                "date",
+                date
+            );
+
+            localStorage.setItem(
+                "activite",
+                activite.value
+            );
 
             localStorage.setItem(
                 "supplements",
@@ -824,17 +1033,25 @@
 
             localStorage.setItem(
                 "balade",
-                String(document.getElementById("balade").checked)
+                String(
+                    document
+                        .getElementById("balade")
+                        .checked
+                )
             );
 
             localStorage.setItem(
                 "chauffeur",
-                String(document.getElementById("chauffeur").checked)
+                String(
+                    document
+                        .getElementById("chauffeur")
+                        .checked
+                )
             );
 
             /*
-             * Si la bibliothèque de confettis ne charge pas,
-             * la validation continue quand même normalement.
+             * La validation continue même si la bibliothèque
+             * des confettis n’a pas été chargée.
              */
             if (typeof window.confetti === "function") {
                 window.confetti({
@@ -849,16 +1066,26 @@
                 });
             }
 
-            overlay.textContent = "Préparation du rendez-vous ❤️...";
+            overlay.textContent =
+                "Préparation du rendez-vous ❤️...";
+
             overlay.classList.add("show");
 
-            window.setTimeout(function () {
-                overlay.textContent = "Presque prêt ✨";
-            }, 900);
+            window.setTimeout(
+                function () {
+                    overlay.textContent =
+                        "Presque prêt ✨";
+                },
+                900
+            );
 
-            window.setTimeout(function () {
-                window.location.href = "rendezvous.html";
-            }, 1900);
+            window.setTimeout(
+                function () {
+                    window.location.href =
+                        "rendezvous.html";
+                },
+                1900
+            );
         }
     </script>
 </body>
