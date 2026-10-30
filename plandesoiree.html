@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Choix du rendez-vous</title>
+
+<style>
+
+body{
+    margin:0;
+    background:#e8d6c3;
+    font-family:Georgia, serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    width:370px;
+    background:#f5e6d6;
+    padding:20px;
+    border-radius:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.15);
+}
+
+h2{
+    text-align:center;
+    color:#5d4635;
+    margin-bottom:15px;
+}
+
+.date-box{
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:25px;
+}
+
+input[type="date"]{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:2px solid #d8c0a8;
+    font-size:16px;
+    box-sizing:border-box;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.activity{
+    position:relative;
+}
+
+.activity input{
+    display:none;
+}
+
+.activity label{
+    display:block;
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:0.3s;
+    border:3px solid transparent;
+    height:100%;
+}
+
+.activity label:hover{
+    transform:scale(1.03);
+}
+
+.activity img{
+    width:100%;
+    height:110px;
+    object-fit:cover;
+}
+
+.activity span{
+    display:block;
+    padding:10px;
+    text-align:center;
+    font-size:14px;
+    color:#5d4635;
+}
+
+.activity input:checked + label{
+    border:3px solid #7b9a6b;
+    background:#eef5ea;
+}
+
+button{
+    margin-top:25px;
+    width:100%;
+    padding:16px;
+    border:none;
+    background:#7b9a6b;
+    color:white;
+    border-radius:15px;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#6a895c;
+}
+
+.result{
+    margin-top:20px;
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    color:#5d4635;
+    display:none;
+}
+
+/* STYLE DE L'OVERLAY CORRIGÉ */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(93, 70, 53, 0.95); /* Couleur de fond marron doux semi-transparente */
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+/* Quand on ajoute la classe .show en JavaScript */
+#overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Choisissez une date ❤️</h2>
+
+    <div class="date-box">
+        <input type="date" id="date">
+    </div>
+
+    <h2>Quel style de rendez-vous ?</h2>
+
+    <div class="grid">
+
+        <div class="activity">
+            <input type="radio" name="activity" id="verre" value="Aller boire un verre 🍷">
+            <label for="verre">
+                <img src="images/Image11.jpg">
+                <span>Aller boire un verre 🍷</span>
+            </label>
+        </div>
+
+        <div class="activity">
+            <input type="radio" name="activity" id="resto" value="Restaurant 🍝">
+            <label for="resto">
+                <img src="images/Image4.jpg">
+                <span>Restaurant 🍝</span>
+            </label>
+        </div>
+
+        <div class="activity">
+            <input type="radio" name="activity" id="crypte" value="Date crypte ⛪">
+            <label for="crypte">
+                <img src="images/Image7.jpg">
+                <span>Date crypte ⛪</span>
+            </label>
+        </div>
+
+        <div class="activity">
+            <input type="radio" name="activity" id="rando" value="Randonnée Pyrénées ⛰️">
+            <label for="rando">
+                <img src="images/Image8.jpg">
+                <span>Randonnée Pyrénées ⛰️</span>
+            </label>
+        </div>
+
+        <div class="activity">
+            <input type="radio" name="activity" id="petanque" value="Pétanque & coucher de soleil 🌅">
+            <label for="petanque">
+                <img src="images/Image3.jpg">
+                <span>Pétanque & sunset 🌅</span>
+            </label>
+        </div>
+
+        <div class="activity">
+            <input type="radio" name="activity" id="Bivouac" value="Bivouac ⛺">
+            <label for="Bivouac">
+                <img src="images/Image6.jpg">
+                <span>Bivouac ⛺</span>
+            </label>
+        </div>
+
+    </div>
+
+    <button onclick="validerChoix()">
+        C'EST PARFAIT !!
+    </button>
+
+    <div class="result" id="result"></div>
+
+</div>
+
+<!-- l'overlay est placé ici et restera masqué grâce au CSS tant que tu n'as pas cliqué -->
+<div id="overlay">Préparation du rendez-vous ❤️...</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+function validerChoix(){
+
+    const date = document.getElementById("date").value;
+    const activite = document.querySelector('input[name="activity"]:checked');
+    const overlay = document.getElementById("overlay");
+
+    if(!date){
+        alert("Choisis une date ❤️");
+        return;
+    }
+
+    if(!activite){
+        alert("Choisis une activité ❤️");
+        return;
+    }
+
+    // 💾 SAUVEGARDE
+    localStorage.setItem("date", date);
+    localStorage.setItem("activite", activite.value);
+
+    // 🎉 CONFETTIS
+    confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.6 }
+    });
+
+    // 🌟 ANIMATION OVERLAY
+    overlay.classList.add("show");
+
+    // ⏳ COMPTE À REBOURS VISUEL
+    let countdown = 2;
+
+    overlay.innerHTML = "Préparation du rendez-vous ❤️...";
+
+    const interval = setInterval(() => {
+
+        countdown--;
+
+        if(countdown === 1){
+            overlay.innerHTML = "Presque prêt ✨";
+        }
+
+        if(countdown <= 0){
+            clearInterval(interval);
+            window.location.href = "rendezvous.html";
+        }
+
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
