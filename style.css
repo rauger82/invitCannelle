@@ -599,17 +599,65 @@ a:focus-visible {
     line-height: 1.5;
 }
 
-.bottom-image {
-    width: 125px;
-    height: 125px;
+.bottom-images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+
+    width: 100%;
     margin: 20px auto 0;
+}
+
+.bottom-image {
+    display: block;
+
+    width: 118px;
+    height: 118px;
+
+    flex: 0 0 118px;
+
+    margin: 0;
 
     object-fit: cover;
+    object-position: center;
 
-    border: 4px solid rgba(255, 255, 255, 0.66);
+    border: 4px solid rgba(255, 255, 255, 0.76);
     border-radius: 50%;
 
-    box-shadow: var(--ombre-legere);
+    box-shadow:
+        0 8px 18px rgba(93, 70, 53, 0.16),
+        0 2px 5px rgba(93, 70, 53, 0.08);
+
+    transition:
+        transform 250ms ease,
+        box-shadow 250ms ease;
+}
+
+/* Léger décalage pour un effet album photo */
+.bottom-image:first-child {
+    transform: rotate(-3deg);
+}
+
+.bottom-image:last-child {
+    transform: rotate(3deg);
+}
+
+/* Effets uniquement sur les appareils équipés d'une souris */
+@media (hover: hover) and (pointer: fine) {
+    .bottom-image:first-child:hover {
+        transform: rotate(-1deg) translateY(-4px) scale(1.035);
+    }
+
+    .bottom-image:last-child:hover {
+        transform: rotate(1deg) translateY(-4px) scale(1.035);
+    }
+
+    .bottom-image:hover {
+        box-shadow:
+            0 13px 25px rgba(93, 70, 53, 0.21),
+            0 3px 7px rgba(93, 70, 53, 0.1);
+    }
 }
 
 /* -------------------------------- */
