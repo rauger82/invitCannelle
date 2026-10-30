@@ -1,73 +1,80 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Invitation pour ma belle Cannelle </title>
+    <meta charset="UTF-8">
 
-<style>
-body{
-    margin:0;
-    background:#e8d7c3;
-    font-family: 'Georgia', serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
 
-.card{
-    width:350px;
-    background:#f2e4d4;
-    padding:20px;
-    border-radius:25px;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,0.2);
-}
+    <meta
+        name="theme-color"
+        content="#e8d6c3"
+    >
 
-.photo{
-    width:100%;
-    border-radius:15px;
-}
+    <title>Invitation pour ma belle Cannelle</title>
 
-h1{
-    font-size:38px;
-    margin:20px 0 5px;
-    color:#5c4333;
-}
-
-p{
-    font-size:22px;
-    color:#6d5240;
-}
-
-button{
-    margin-top:20px;
-    background:#7c9b6d;
-    color:white;
-    border:none;
-    padding:15px 35px;
-    border-radius:15px;
-    font-size:18px;
-    cursor:pointer;
-}
-</style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <main class="page">
+        <article class="card">
+            images/Image3.jpg
 
-<div class="card">
-    <img src="images/Image3.jpg" class="photo">
+            <p class="photo-caption">
+                Une invitation rien que pour vous
+            </p>
 
-    <h1>Invitation</h1>
+            <div class="ornament" aria-hidden="true">
+                ♥
+            </div>
 
-    <p>De la part de : Ton rauger </p>
-    <p>Pour : ⭐ Cannelle ⭐ </p>
+            <p class="page-label">Une lettre particulière</p>
 
-    <button onclick="window.location.href='invitation.html'">
-        Ouvrir la lettre
-    </button>
-</div>
+            <h1 class="page-title">
+                Invitation
+            </h1>
 
+            <div class="invitation-details">
+                <p>
+                    De la part de
+                    <strong>votre Rauger</strong>
+                </p>
+
+                <p>
+                    Pour
+                    <strong>⭐ Cannelle ⭐</strong>
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="primary-button transition-link"
+                data-href="invitation.html"
+            >
+                <span>Ouvrir la lettre</span>
+                <span aria-hidden="true">💌</span>
+            </button>
+        </article>
+    </main>
+
+    <script>
+        document
+            .querySelectorAll(".transition-link")
+            .forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const destination = button.dataset.href;
+                    const page = document.querySelector(".page");
+
+                    page.classList.add("page-exit");
+
+                    window.setTimeout(function () {
+                        window.location.href = destination;
+                    }, 330);
+                });
+            });
+    </script>
 </body>
 </html>
