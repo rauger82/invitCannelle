@@ -612,10 +612,10 @@ a:focus-visible {
 .bottom-image {
     display: block;
 
-    width: 136px;
-    height: 136px;
+    width: 160px;
+    height: 160px;
 
-    flex: 0 0 136px;
+    flex: 0 0 160px;
 
     margin: 0;
 
@@ -735,13 +735,13 @@ a:focus-visible {
 
 @media (max-width: 420px) {
     .bottom-images {
-        gap: 12px;
+        gap: 18px;
     }
 
     .bottom-image {
-        width: 120px;
-        height: 120px;
-        flex-basis: 120px;
+        width: 150px;
+        height: 150px;
+        flex-basis: 150px;
     }
     body {
         padding-right: 12px;
@@ -783,13 +783,13 @@ a:focus-visible {
 
 @media (max-width: 340px) {
     .bottom-images {
-        gap: 8px;
+        gap: 15px;
     }
 
     .bottom-image {
-        width: 105px;
-        height: 105px;
-        flex-basis: 105px;
+        width: 120px;
+        height: 120px;
+        flex-basis: 120px;
         border-width: 3px;
     }
 }
