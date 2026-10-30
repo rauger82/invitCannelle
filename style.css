@@ -735,6 +735,15 @@ a:focus-visible {
 /* -------------------------------- */
 
 @media (max-width: 420px) {
+    .bottom-images {
+        gap: 10px;
+    }
+    
+    .bottom-image {
+        width: 105px;
+        height: 105px;
+        flex-basis: 105px;
+    }
     body {
         padding-right: 12px;
         padding-left: 12px;
@@ -770,6 +779,19 @@ a:focus-visible {
     .no-btn {
         width: 164px;
         font-size: 13px;
+    }
+}
+
+@media (max-width: 340px) {
+    .bottom-images {
+        gap: 8px;
+    }
+
+    .bottom-image {
+        width: 92px;
+        height: 92px;
+        flex-basis: 92px;
+        border-width: 3px;
     }
 }
 
