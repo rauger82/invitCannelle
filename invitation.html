@@ -1,48 +1,81 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'invitation</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#e8d6c3"
+    >
+
+    <title>L’invitation</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    
+    <main class="page">
+        <article class="container">
+            images/Image12.jpg
 
-<div class="container">
+            <div class="ornament" aria-hidden="true">
+                ♥
+            </div>
 
-    <img src="images/Image12.jpg" class="top-img">
-    
-    <h1>Chère Cannelle, </h1>
-    <h1>Accepteriez-vous un nouveau rdv avec Rémi ? ❤️</h1>
+            <p class="page-label">
+                Une question importante
+            </p>
 
-    <div class="options">
+            <h1 class="page-title">
+                Chère Cannelle,
+            </h1>
 
-        <div class="choice">
-            <img src="images/Image6.jpg" class="yes-img">
+            <h2 class="question-title">
+                Accepteriez-vous un nouveau rendez-vous avec Rémi&nbsp;? ❤️
+            </h2>
 
-            <button class="btn-yes" id="yesButton"
-            onclick="window.location.href='plandesoiree.html'">
-                OUI
-            </button>
-        </div>
+            <section class="options" aria-label="Réponse à l’invitation">
+                <div class="choice">
+                    images/Image6.jpg
 
-        <div class="choice">
-            <img src="images/Image10.jpg" class="no-img">
+                    <span class="choice-label">
+                        Le choix raisonnable
+                    </span>
 
-            <button class="no-btn" id="noButton">
-                Non (T'as trop le choix sry)
-            </button>
-        </div>
+                    <button
+                        type="button"
+                        class="btn-yes"
+                        id="yesButton"
+                    >
+                        OUI ❤️
+                    </button>
+                </div>
 
-    </div>
+                <div class="choice">
+                    images/Image10.jpg
 
-</div>
+                    <span class="choice-label">
+                        Le choix presque impossible
+                    </span>
+                </div>
+            </section>
+        </article>
+    </main>
 
-<script src="script.js"></script>
+    <button
+        type="button"
+        class="no-btn"
+        id="noButton"
+        aria-label="Refuser l’invitation"
+    >
+        Non, désolée
+    </button>
 
+    <script src="script.js"></script>
 </body>
 </html>
